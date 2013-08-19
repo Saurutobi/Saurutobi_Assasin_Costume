@@ -11,7 +11,7 @@ enum LINE {
 	lineF,
 	lineG,
 	lineH
-} line;
+};
 
 int statusLED = 10;
 int testLED = 13;
@@ -82,13 +82,13 @@ void loop()
 void dWrite()
 {	
     //we want to stop when we've started over the 3rd time
-    line = LINE.lineA;
+    enum LINE line = lineA;
     int frequency = HIGH;
-    for(int counter = 0; counter < 2; line++)
+    for(int counter = 0; counter < 2; line = static_cast<LINE>(static_cast<int>(line) + 1))
     {
         digitalWrite(testLED, frequency);  //do the first test
         digitalWrite(line, frequency);  //write to the specific line and freq
-        if (line == LINE.lineH) //if we're at the end do something different
+        if (line == lineH) //if we're at the end do something different
         {
             /*** Depending on HIGH or LOW we will do freq#  or  1000 - freq# ***/
             if (inputTemp <= lowthreshold)
@@ -139,7 +139,7 @@ void dWrite()
             }
             
             counter++;  //change the next set of writes
+			line = lineA;
         }
-        line++; //change to next line
     }
 }
